@@ -44,3 +44,11 @@ pytest
 ```bash
 pytest tests/test_product.py
 pytest tests/test_category.py 
+```
+## Документация:
+
+Дополнительная информация отсутствует.
+
+## Лицензия:
+
+Лицензия не требуется.
