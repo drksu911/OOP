@@ -22,12 +22,14 @@ class Category:
         """Геттер для получения списка товаров в формате строк"""
         products_info = []
         for product in self.__products:
+            # Форматируем каждый продукт строго по шаблону с \n в конце
             product_info = (
                 f"{product.name}, {product.price} руб. "
-                f"Остаток: {product.quantity} шт."
+                f"Остаток: {product.quantity} шт.\n"
             )
             products_info.append(product_info)
-        return "\n".join(products_info)
+        # Объединяем все строки продуктов
+        return "".join(products_info)
 
     @property
     def products_list(self):
