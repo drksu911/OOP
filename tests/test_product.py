@@ -60,7 +60,7 @@ def test_new_product_class_method():
         "name": "New Product",
         "description": "New Description",
         "price": 200.0,
-        "quantity": 10
+        "quantity": 10,
     }
 
     product = Product.new_product(product_data)
@@ -80,13 +80,10 @@ def test_new_product_with_duplicate_check():
         "name": "Existing Product",
         "description": "New Description",
         "price": 150.0,  # Более высокая цена
-        "quantity": 3
+        "quantity": 3,
     }
 
-    result = Product.new_product_with_duplicate_check(
-        duplicate_data,
-        existing_products
-    )
+    result = Product.new_product_with_duplicate_check(duplicate_data, existing_products)
 
     # Должен вернуться существующий продукт с обновленными значениями
     assert result is existing_product
@@ -103,12 +100,11 @@ def test_new_product_with_duplicate_check_new_product():
         "name": "New Product",
         "description": "New Description",
         "price": 200.0,
-        "quantity": 10
+        "quantity": 10,
     }
 
     result = Product.new_product_with_duplicate_check(
-        new_product_data,
-        existing_products
+        new_product_data, existing_products
     )
 
     # Должен вернуться новый продукт
@@ -116,3 +112,30 @@ def test_new_product_with_duplicate_check_new_product():
     assert result.name == "New Product"
     assert result.quantity == 10
     assert result.price == 200.0
+
+
+def test_product_str_method():
+    """Тест строкового представления продукта"""
+    product = Product("Test Product", "Description", 100.0, 5)
+    expected = "Test Product, 100.0 руб. Остаток: 5 шт."
+    assert str(product) == expected
+
+
+def test_product_addition():
+    """Тест сложения продуктов"""
+    product1 = Product("Product1", "Desc1", 100.0, 2)
+    product2 = Product("Product2", "Desc2", 200.0, 3)
+
+    result = product1 + product2
+    expected = (100.0 * 2) + (200.0 * 3)
+    assert result == expected
+
+
+def test_product_addition_with_zero_quantity():
+    """Тест сложения продуктов с нулевым количеством"""
+    product1 = Product("Product1", "Desc1", 100.0, 0)
+    product2 = Product("Product2", "Desc2", 200.0, 5)
+
+    result = product1 + product2
+    expected = (100.0 * 0) + (200.0 * 5)
+    assert result == expected
