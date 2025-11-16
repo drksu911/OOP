@@ -1,3 +1,6 @@
+from typing import Any, Dict, List
+
+
 class Product:
     def __init__(self, name: str, description: str, price: float, quantity: int):
         self.name = name
@@ -5,22 +8,22 @@ class Product:
         self._price = price  # Приватный атрибут
         self.quantity = quantity
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Строковое представление продукта"""
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
-    def __add__(self, other):
+    def __add__(self, other: "Product") -> float:
         """Сложение продуктов - возвращает общую стоимость"""
-        if not isinstance(other, Product):
-            raise TypeError("Можно складывать только объекты Product")
+        if type(self) is not type(other):
+            raise TypeError("Можно складывать только объекты одинаковых классов")
         return (self.price * self.quantity) + (other.price * other.quantity)
 
     @property
-    def price(self):
+    def price(self) -> float:
         return self._price
 
     @price.setter
-    def price(self, value):
+    def price(self, value: float) -> None:
         if value <= 0:
             print("Цена не должна быть нулевая или отрицательная")
             return
@@ -35,28 +38,28 @@ class Product:
         self._price = value
 
     @classmethod
-    def new_product(cls, product_data: dict):
+    def new_product(cls, product_data: Dict[str, Any]) -> "Product":
         """Создает новый продукт из словаря данных"""
         return cls(
-            name=product_data["name"],
-            description=product_data["description"],
-            price=product_data["price"],
-            quantity=product_data["quantity"],
+            name=str(product_data["name"]),
+            description=str(product_data["description"]),
+            price=float(product_data["price"]),
+            quantity=int(product_data["quantity"]),
         )
 
     @classmethod
     def new_product_with_duplicate_check(
-        cls, product_data: dict, existing_products: list
-    ):
+        cls, product_data: Dict[str, Any], existing_products: List["Product"]
+    ) -> "Product":
         """Создает новый продукт с проверкой дубликатов"""
         # Поиск дубликатов по имени
         for existing_product in existing_products:
             if existing_product.name == product_data["name"]:
                 # Объединение количеств
-                existing_product.quantity += product_data["quantity"]
+                existing_product.quantity += int(product_data["quantity"])
                 # Выбор максимальной цены
                 existing_product.price = max(
-                    existing_product.price, product_data["price"]
+                    existing_product.price, float(product_data["price"])
                 )
                 return existing_product
 

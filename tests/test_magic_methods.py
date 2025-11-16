@@ -33,7 +33,10 @@ class TestProductMagicMethods:
         """Тест ошибки типа при сложении"""
         product = Product("Product", "Desc", 100.0, 5)
 
-        with pytest.raises(TypeError, match="Можно складывать только объекты Product"):
+        # Обновляем проверку на новое сообщение об ошибке
+        with pytest.raises(
+            TypeError, match="Можно складывать только объекты одинаковых классов"
+        ):
             product + "invalid"
 
 

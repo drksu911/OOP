@@ -139,3 +139,19 @@ def test_product_addition_with_zero_quantity():
     result = product1 + product2
     expected = (100.0 * 0) + (200.0 * 5)
     assert result == expected
+
+
+def test_product_addition_different_classes_error():
+    """Тест ошибки при сложении продуктов разных классов"""
+    product = Product("Product", "Desc", 100.0, 2)
+
+    # Создаем мок-объект другого класса
+    class OtherClass:
+        pass
+
+    other = OtherClass()
+
+    with pytest.raises(
+        TypeError, match="Можно складывать только объекты одинаковых классов"
+    ):
+        product + other
