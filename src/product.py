@@ -1,18 +1,24 @@
 from typing import Any, Dict, List
 
+from src.base_product import BaseProduct, LogCreationMixin
 
-class Product:
+
+class Product(LogCreationMixin, BaseProduct):
     def __init__(self, name: str, description: str, price: float, quantity: int):
+        # Инициализируем атрибуты BaseProduct
         self.name = name
         self.description = description
         self._price = price  # Приватный атрибут
         self.quantity = quantity
 
+        # Вызываем __init__ миксина (он выведет сообщение)
+        super().__init__(name, description, price, quantity)
+
     def __str__(self) -> str:
         """Строковое представление продукта"""
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
-    def __add__(self, other: "Product") -> float:
+    def __add__(self, other: "BaseProduct") -> float:
         """Сложение продуктов - возвращает общую стоимость"""
         if type(self) is not type(other):
             raise TypeError("Можно складывать только объекты одинаковых классов")

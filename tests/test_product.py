@@ -155,3 +155,11 @@ def test_product_addition_different_classes_error():
         TypeError, match="Можно складывать только объекты одинаковых классов"
     ):
         product + other
+
+
+def test_product_inherits_from_base_product():
+    """Тест, что Product наследуется от BaseProduct"""
+    from src.base_product import BaseProduct
+
+    product = Product("Test", "Desc", 100.0, 5)
+    assert isinstance(product, BaseProduct)

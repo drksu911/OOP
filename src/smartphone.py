@@ -13,6 +13,7 @@ class Smartphone(Product):
         memory: int,
         color: str,
     ):
+        # Вызываем конструктор родительского класса
         super().__init__(name, description, price, quantity)
         self.efficiency = efficiency
         self.model = model
