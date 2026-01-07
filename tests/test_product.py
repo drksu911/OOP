@@ -132,12 +132,14 @@ def test_product_addition():
 
 
 def test_product_addition_with_zero_quantity():
-    """Тест сложения продуктов с нулевым количеством"""
-    product1 = Product("Product1", "Desc1", 100.0, 0)
-    product2 = Product("Product2", "Desc2", 200.0, 5)
+    """Тест сложения продуктов с низким количеством"""
+    # Теперь нельзя создавать продукты с нулевым количеством
+    # Изменяем тест на использование минимального положительного количества
+    product1 = Product("Product1", "Desc1", 100.0, 1)  # Изменено с 0 на 1
+    product2 = Product("Product2", "Desc2", 200.0, 2)
 
     result = product1 + product2
-    expected = (100.0 * 0) + (200.0 * 5)
+    expected = (100.0 * 1) + (200.0 * 2)  # Обновляем ожидаемый результат
     assert result == expected
 
 
@@ -155,6 +157,20 @@ def test_product_addition_different_classes_error():
         TypeError, match="Можно складывать только объекты одинаковых классов"
     ):
         product + other
+
+
+def test_product_zero_quantity_exception():
+    """Тест исключения при создании продукта с нулевым количеством"""
+    with pytest.raises(
+        ValueError, match="Товар с нулевым количеством не может быть добавлен"
+    ):
+        Product("Test", "Desc", 100.0, 0)
+
+
+def test_product_positive_quantity():
+    """Тест создания продукта с положительным количеством"""
+    product = Product("Test", "Desc", 100.0, 5)
+    assert product.quantity == 5
 
 
 def test_product_inherits_from_base_product():

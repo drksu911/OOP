@@ -1,92 +1,40 @@
 from src.product import Product
 from src.category import Category
-from src.smartphone import Smartphone
-from src.lawn_grass import LawnGrass
 
 if __name__ == '__main__':
-    # Тестирование создания продуктов с логированием
-    print("Создание продуктов (должно выводить сообщения о создании):")
-    print("-" * 50)
+    # Тестирование создания продукта с нулевым количеством
+    try:
+        product_invalid = Product("Бракованный товар", "Неверное количество", 1000.0, 0)
+    except ValueError as e:
+        print(f"Возникла ошибка ValueError: {e}")
+    else:
+        print("Не возникла ошибка ValueError при попытке добавить продукт с нулевым количеством")
 
+    # Создание обычных продуктов
     product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
     product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
     product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
 
-    print("\nСвойства продуктов:")
-    print("-" * 50)
+    # Создание категории с продуктами
+    category1 = Category("Смартфоны", "Категория смартфонов", [product1, product2, product3])
 
-    print(product1.name)
-    print(product1.description)
-    print(product1.price)
-    print(product1.quantity)
+    # Вычисление средней цены
+    average_price = category1.middle_price()
+    print(f"Средняя цена в категории '{category1.name}': {average_price:.2f} руб.")
 
-    print(product2.name)
-    print(product2.description)
-    print(product2.price)
-    print(product2.quantity)
+    # Создание пустой категории
+    category_empty = Category("Пустая категория", "Категория без продуктов", [])
+    empty_average_price = category_empty.middle_price()
+    print(f"Средняя цена в пустой категории '{category_empty.name}': {empty_average_price:.2f} руб.")
 
-    print(product3.name)
-    print(product3.description)
-    print(product3.price)
-    print(product3.quantity)
-
-    print("\nСоздание категории:")
-    print("-" * 50)
-
-    category1 = Category(
-        "Смартфоны",
-        "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
-        [product1, product2, product3]
-    )
-
-    print(category1.name == "Смартфоны")
-    print(category1.description)
-    print(len(category1.products_list))
-    print(category1.category_count)
-    print(category1.product_count)
-
-    print("\nСоздание еще одного продукта:")
-    print("-" * 50)
-
+    # Тестирование с одним продуктом
     product4 = Product("55\" QLED 4K", "Фоновая подсветка", 123000.0, 7)
-    category2 = Category(
-        "Телевизоры",
-        "Современный телевизор, который позволяет наслаждаться просмотром, станет вашим другом и помощником",
-        [product4]
-    )
+    category_single = Category("Телевизоры", "Категория телевизоров", [product4])
+    single_average_price = category_single.middle_price()
+    print(f"Средняя цена в категории с одним товаром: {single_average_price:.2f} руб.")
 
-    print(category2.name)
-    print(category2.description)
-    print(len(category2.products_list))
-    print(category2.products)
-
-    print("\nОбщая статистика:")
-    print("-" * 50)
-
-    print(f"Всего категорий: {Category.category_count}")
-    print(f"Всего продуктов: {Category.product_count}")
-
-    # Тестирование создания объектов классов-наследников
-    print("\nСоздание смартфона (должно выводить сообщение о создании):")
-    print("-" * 50)
-
-    smartphone = Smartphone(
-        "Samsung Galaxy S23",
-        "256GB, Черный",
-        150000.0, 3,
-        95.5, "S23", 256, "Черный"
-    )
-
-    print(f"\nСвойства смартфона: {smartphone.name}, модель: {smartphone.model}")
-
-    print("\nСоздание газонной травы (должно выводить сообщение о создании):")
-    print("-" * 50)
-
-    grass = LawnGrass(
-        "Газонная трава премиум",
-        "Высококачественная трава",
-        1500.0, 50,
-        "Россия", "14 дней", "Зеленый"
-    )
-
-    print(f"\nСвойства травы: {grass.name}, страна: {grass.country}")
+    # Дополнительный тест: добавление товара и пересчет средней цены
+    product5 = Product("OLED 65\"", "4K OLED телевизор", 250000.0, 3)
+    category_single.add_product(product5)
+    new_average_price = category_single.middle_price()
+    print(f"Средняя цена после добавления второго товара: {new_average_price:.2f} руб.")

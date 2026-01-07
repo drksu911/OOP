@@ -5,6 +5,10 @@ from src.base_product import BaseProduct, LogCreationMixin
 
 class Product(LogCreationMixin, BaseProduct):
     def __init__(self, name: str, description: str, price: float, quantity: int):
+        # Проверяем, что количество не равно нулю
+        if quantity == 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
+
         # Инициализируем атрибуты BaseProduct
         self.name = name
         self.description = description

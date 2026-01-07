@@ -33,6 +33,23 @@ class Category:
         self.__products.append(product)
         Category.product_count += 1
 
+    def middle_price(self) -> float:
+        """
+        Возвращает среднюю цену товаров в категории.
+        Если в категории нет товаров, возвращает 0.
+        """
+        try:
+            if len(self.__products) == 0:
+                return 0.0
+
+            total_price = sum(product.price for product in self.__products)
+            average_price = total_price / len(self.__products)
+            return average_price
+
+        except ZeroDivisionError:
+            # Дополнительная защита на случай, если len(self.__products) вернет 0
+            return 0.0
+
     @property
     def products(self) -> str:
         """Геттер для получения списка товаров в формате строк"""

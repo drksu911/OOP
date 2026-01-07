@@ -186,16 +186,6 @@ def test_products_property_special_characters():
     assert output == expected
 
 
-def test_products_property_zero_quantity():
-    """Тест геттера продуктов с нулевым количеством"""
-    product = Product("Out of Stock", "No items", 100.0, 0)
-    category = Category("Test Category", "Desc", [product])
-
-    output = category.products
-    expected = "Out of Stock, 100.0 руб. Остаток: 0 шт.\n"
-    assert output == expected
-
-
 def test_products_property_high_price():
     """Тест геттера продуктов с высокой ценой"""
     product = Product("Expensive Item", "Luxury", 999999.99, 1)
