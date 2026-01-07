@@ -165,10 +165,14 @@ def test_products_property_after_removal():
     category = Category("Test Category", "Description", [product1, product2])
 
     # Симулируем удаление продукта (в реальности нужно будет добавить метод remove)
-    category._Category__products = [product1]  # Прямой доступ к приватному атрибуту для теста
+    category._Category__products = [
+        product1
+    ]  # Прямой доступ к приватному атрибуту для теста
 
     products_str = category.products
-    expected = f"{product1.name}, {product1.price} руб. Остаток: {product1.quantity} шт.\n"
+    expected = (
+        f"{product1.name}, {product1.price} руб. Остаток: {product1.quantity} шт.\n"
+    )
     assert products_str == expected
 
 
@@ -200,3 +204,23 @@ def test_products_property_high_price():
     output = category.products
     expected = "Expensive Item, 999999.99 руб. Остаток: 1 шт.\n"
     assert output == expected
+
+
+def test_category_str_method():
+    """Тест строкового представления категории"""
+    product1 = Product("Product1", "Desc1", 100.0, 2)
+    product2 = Product("Product2", "Desc2", 200.0, 3)
+    category = Category("Test Category", "Description", [product1, product2])
+
+    expected = "Test Category, количество продуктов: 5 шт."
+    assert str(category) == expected
+
+
+def test_category_products_uses_str():
+    """Тест, что геттер products использует __str__ продуктов"""
+    product = Product("Test Product", "Description", 150.0, 8)
+    category = Category("Test Category", "Description", [product])
+
+    products_str = category.products
+    expected = "Test Product, 150.0 руб. Остаток: 8 шт.\n"
+    assert products_str == expected

@@ -22,3 +22,7 @@ mypy = "^1.18.2"
 isort = "^6.1.0"
 pytest-cov = "^7.0.0"
 
+
+[tool.poetry.group.lint.dependencies]
+black = "^25.9.0"
+
